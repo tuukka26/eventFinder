@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Expo, { Font, AppLoading } from 'expo';
-import { Button, Screen, Icon } from '@shoutem/ui';
+import { Button, Icon } from '@shoutem/ui';
 
 export default class HomeScreen extends React.Component {
-  static navigationOptions = {title: 'Event Finder'};
+  static navigationOptions = {title: 'Home'};
 
   state = {
     fontsAreLoaded: false,

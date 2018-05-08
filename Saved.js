@@ -42,7 +42,6 @@ export default class Saved extends React.Component {
       tx.executeSql('create table if not exists events (id integer primary key not null, title text, venue text, date text);');
     });
     this.updateList();
-    console.log(this.state.events);
   }
 
   updateList = () => {
@@ -91,8 +90,6 @@ export default class Saved extends React.Component {
     if (!this.state.fontsAreLoaded) {
       return <AppLoading />;
     }
-
-    const { navigate } = this.props.navigation;
 
     const events = this.state.events;
 

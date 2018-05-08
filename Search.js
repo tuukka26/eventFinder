@@ -111,6 +111,24 @@ export default class Search extends React.Component {
 
     const events = this.state.events;
 
+    let list;
+    if (!events.length) {
+      list = <View style={styles.results}>
+              <Icon name="up-arrow" />
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Perform a search</Text>
+              <Icon name="search" />
+            </View>
+    } else {
+      list = <View style={styles.results}>
+      <Screen>
+      <ListView
+        data={events}
+        renderRow={this.renderRow}
+      />
+      </Screen>
+    </View>
+    }
+
     return(
         <View style={styles.container}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -141,14 +159,7 @@ export default class Search extends React.Component {
               </Button>
             </View>
           </TouchableWithoutFeedback>
-          <View style={styles.results}>
-            <Screen>
-              <ListView
-                data={events}
-                renderRow={this.renderRow}
-                />
-            </Screen>
-          </View>
+          {list}
         </View>
     )
   }

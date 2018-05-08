@@ -103,7 +103,6 @@ export default class Search extends React.Component {
       </View>
     )
   }
-
   render () {
 
     if (!this.state.fontsAreLoaded) {

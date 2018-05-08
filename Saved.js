@@ -2,12 +2,12 @@ import React from 'react';
 import { Alert, StyleSheet, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import Expo, { SQLite, Font, AppLoading } from 'expo';
-import { TextInput, Icon, ListView, Screen, Tile, Title, Subtitle, Divider, NavigationBar, Button } from '@shoutem/ui';
+import { TextInput, Icon, ListView, Screen, Tile, Title, Subtitle, Divider, Button } from '@shoutem/ui';
 
 const db = SQLite.openDatabase('eventdb.db');
 
 export default class Saved extends React.Component {
-  static navigationOptions = { title: 'Saved Events', headerBackTitle: 'Back' };
+  static navigationOptions = { title: 'Saved Events' };
 
   state = {
     fontsAreLoaded: false,
@@ -42,6 +42,7 @@ export default class Saved extends React.Component {
       tx.executeSql('create table if not exists events (id integer primary key not null, title text, venue text, date text);');
     });
     this.updateList();
+    console.log(this.state.events);
   }
 
   updateList = () => {
@@ -90,21 +91,34 @@ export default class Saved extends React.Component {
     if (!this.state.fontsAreLoaded) {
       return <AppLoading />;
     }
+
+    const { navigate } = this.props.navigation;
+
     const events = this.state.events;
+
+    let list;
+    if (!events.length) {
+      list = <View style={styles.emptyList}>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>You have no saved events.</Text>
+              <Icon name="error" />
+            </View>
+    } else {
+      list = <View style={styles.list}>
+      <Screen>
+      <ListView
+        data={events}
+        renderRow={this.renderRow}
+      />
+      </Screen>
+    </View>
+    }
 
     return(
       <View style={styles.container}>
         <View style={styles.title}>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>Your saved events</Text>
         </View>
-        <View style={styles.list}>
-          <Screen>
-          <ListView
-            data={events}
-            renderRow={this.renderRow}
-          />
-          </Screen>
-        </View>
+        {list}
       </View>
     )
   }
@@ -124,6 +138,12 @@ const styles = StyleSheet.create({
   list: {
     flex: 1,
     backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyList: {
+    flex: 1,
+    backgroundColor: '#ccefff',
     alignItems: 'center',
     justifyContent: 'center',
   },

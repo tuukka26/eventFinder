@@ -28,7 +28,6 @@ export default class HomeScreen extends React.Component {
 
     this.setState({ fontsAreLoaded: true });
   }
-
   render () {
 
     if (!this.state.fontsAreLoaded) {
